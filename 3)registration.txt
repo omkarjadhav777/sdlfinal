@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>class
+        </title>
+        <style>
+            #d{
+                max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+            }
+            input{
+                width: 100%;
+                padding: 5px;
+                margin: 10px;
+                border:1px solid peru;
+                 border-radius: 3px; 
+            }
+            #gender{
+                width: 100%;
+                padding: 5px;
+                margin: 10px;
+                border:1px solid  peru;
+                 border-radius: 3px; 
+            }
+            #bt{
+                background-color: aqua;
+                color: black;
+                width: 100%;
+            }
+            #bt:hover{
+                background-color: red;
+            }
+         
+        </style>
+    </head>
+    <body>
+       <center><h2>FaceBook Registration From</h2></center>
+         <div id="d">
+        <form onsubmit="return validateForm()">
+        first Name:<br><input type="text" id="name1" name="t1"><br>
+        last Name:<br><input type="text" id="name2" name="t1"><br>
+        Password:<br><input type="password" id="pass1" name="t2"><br>
+        cofirm password:<br><input type="password" id="pass2" name="t2"><br>
+        Email:<br><input type="text" id="email1" name="t3"><br>
+        Gender:<br>
+        <select id="gender" name="gender">
+            <option value="">select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">female</option>
+            <option value="other">other</option>
+        </select><br>
+        dob:<br><input type="date" id="dob1" name="birthday"><br>
+          <input  type="submit" id="bt" value="register">
+    </form>
+</div>
+    <script>
+
+        function validateForm(){
+            var name=document.getElementById("name1").value.trim();
+            var name1=document.getElementById("name2").value.trim();
+            var pass=document.getElementById("pass1").value.trim();
+            var pass2=document.getElementById("pass2").value.trim();
+            var email=document.getElementById("email1").value.trim();
+            var gender=document.getElementById("gender").value;
+            var dob=document.getElementById("dob1").value;
+
+            if(name1==="" || name==="" || pass==""|| email===""|| gender===""|| dob==="" || pass2===""){
+                alert("plz fill in all fields");
+                return false;
+            }
+            if(pass.length<6){
+                alert("password should greater");
+                return false;
+            }
+            var emailPattern = /^\S+@\S+\.\S+$/;
+      
+            if (!emailPattern.test(email)) {
+                 alert('Please enter a valid email address');
+                  return false;
+                }
+                 if (pass !== pass2) {
+           alert("Passwords do not match");
+            return false;
+            }
+      return true;
+            
+        }
+    
+      
+    </script>
+    </body>
+</html>

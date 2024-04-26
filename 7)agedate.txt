@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>class</title>
+        <script src="age.js"></script>
+    </head>
+    <body>
+        <h1>javascript link example</h1>
+        <p>this example of using </p>
+        <input type="button" value="calculate" onclick="caluavgtime()">
+        <input type="button" value="calculate" onclick="gettimeofday()">
+        <p id="t"></p>
+    </body>
+</html>
+
+
+function caluavgtime(){
+    var avglife=80;
+    var weekinyear=52;
+
+    var avg=avglife*weekinyear;
+    document.getElementById("t").innerHTML=avg;
+
+}
+
+function gettimeofday(){
+    var date=new Date();
+    var hour=date.getHours();
+
+    if(hour>=0 && hour<12){
+        document.getElementById("t").innerHTML="morning";
+    }
+    else if(hour>=12 && hour<18){
+        document.getElementById("t").innerHTML="afternoon";
+    }
+    else{
+        document.getElementById("t").innerHTML="night";
+    }
+}
+
+var greeting="hello world";
+alert("javascript file linked successfully");

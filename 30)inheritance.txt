@@ -1,0 +1,95 @@
+<?php
+ 
+
+ class shape{
+    protected $name;
+    public function __construct($name){
+        $this->name=$name;
+    }
+    public function calculate(){
+        return 0;
+    }
+ }
+
+ class triangle extends shape{
+    protected $base;
+    protected $height;
+    public function __construct($base,$height){
+        parent::__construct("triangle");
+        $this->base=$base;
+        $this->height=$height;
+
+    }
+    public function calculate(){
+        return 0.5*$this->base*$this->height;
+    }
+ }
+ class square extends shape{
+    protected $side;
+    public function __construct($side){
+        parent::__construct("square");
+        $this->side=$side;
+    }
+    public function calculate(){
+        return $this->side*$this->side;
+    }
+ }
+
+ class circle extends shape{
+    protected $radius;
+    public function __construct($radius){
+        parent::__construct("circle");
+        $this->radius=$radius;
+    }
+    public function calculate(){
+        return 3.14*$this->radius* $this->radius;
+    }
+ }
+
+
+ if(isset($_POST['shape'])){
+    $shape=$_POST['shape'];
+    $dimension=$_POST['dimension'];
+
+    switch($shape){
+        case 'triangle':
+           [$base,$height]=explode(",",$dimension);
+           $triangle=new triangle($base,$height);
+             $result=$triangle->calculate();
+             echo "area of trianle: $result";
+            break;
+        case 'circle':
+             $circle=new circle($dimension);
+             $result=$circle->calculate();
+             echo "area of circle: $result";
+             break;
+        case 'square':
+             $square=new square($dimension);
+             $result=$square->calculate();
+             echo "are of square: $result";
+            break;
+            default:
+            echo "plz select shape";
+            break;
+
+    }
+ }
+
+?>
+
+<html>
+    <head>
+        <title>class</title>
+    </head>
+    <body>
+        <form method="post">
+           select one:<br>
+          triangle: <input type="radio" name="shape" value="triangle">
+          square: <input type="radio" name="shape" value="square">
+          circle: <input type="radio" name="shape" value="circle"><br>
+           enter dimension:
+           <input type="text" name="dimension"><br>
+           <input type="submit" value="click">
+        </form>
+    </body>
+</html>

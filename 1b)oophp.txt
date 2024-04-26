@@ -1,0 +1,274 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 26, 2024 at 04:06 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `blood`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bloodd`
+--
+
+CREATE TABLE `bloodd` (
+  `name` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `bloodtype` varchar(20) NOT NULL,
+  `healthcodition` varchar(20) NOT NULL,
+  `agree` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bloodd`
+--
+
+INSERT INTO `bloodd` (`name`, `email`, `bloodtype`, `healthcodition`, `agree`) VALUES
+('Omkar Ganesh Jadhav', 'oj6875770@gmail.com', 'e', 'ddfd', 'dfd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `name` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`name`, `email`, `password`) VALUES
+('om', 'om@1', 'omkar'),
+('omkar', 'om@11', 'omkar');
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+<?php
+
+$hostname="localhost";
+$username="root";
+$password="";
+$dbname="blood";
+
+
+$conn=mysqli_connect($hostname,$username,$password,$dbname);
+
+if(!$conn){
+    die("connection faild");
+}
+?>
+
+
+
+
+<?php
+ include("conn.php");
+
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $name=$_POST['name'];
+    $email=$_POST['email'];
+    $blood=$_POST['blood_type'];
+    $health=$_POST['health_condition'];
+    $agree=$_POST['agree'];
+
+    $sql="INSERT INTO bloodd(name,email,bloodtype,healthcodition,agree) VALUES ('$name','$email','$blood','$health','$agree')";
+
+    if($conn->query($sql)){
+        echo "complaint registerd su";
+    }
+    else{
+        echo "complaint regirsted succefullu";
+    }
+  }
+
+ ?>
+
+
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Form</title>
+</head>
+<body>
+    <h2>Blood Donation Form</h2>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+        Name: <input type="text" name="name" required><br>
+        Email: <input type="email" name="email" required><b Phone: <input type="tel" name="phone" required><br>
+        Blood Type: <input type="text" name="blood_type" required><br>
+        Health Condition: <textarea name="health_condition" required></textarea><br>
+        Agree:<input type="text" name="agree"><br>
+        <input type="submit" value="Submit">
+    </form>
+    <a href="view.php">View Complaints</a>
+</body>
+</html>
+
+
+
+<?php
+ include 'conn.php';
+ if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $email=$_POST["email"];
+    $password=$_POST["password"];
+    $sql="SELECT * FROM `user` where `email`='$email'";
+    $result=$conn->query($sql);
+
+    if($result->num_rows==1){
+        $row=$result->fetch_assoc();
+        
+        if($row["email"]==$email && $row["password"]==$password){
+            header("Location:home.php");
+            // exit();
+
+        }
+        else{
+            echo "invalid username or password";
+        }
+
+    }
+    else{
+        echo "not multiple user";
+    }
+ }
+
+?>
+
+
+
+<html>
+    <head>
+        <title>class</title>
+        
+    </head>
+    <body>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+
+<h3>login</h3>
+<input type="email" name="email" class="email" id="username"></br>
+<input type="password" name="password" class="password" id="password"></br>
+<input type="submit" value="submit"></br>
+
+</form>
+
+
+</form>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+<?php
+ include("conn.php");
+
+ if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $name=$_POST["name"];
+    $email=$_POST["email"];
+    $password=$_POST["password"];
+
+    $sql="INSERT INTO user(name,email,password) values('$name','$email','$password')";
+
+    if($conn->query($sql)){
+        echo "new category added succesful";
+        header("location:login1.php");
+    }
+    else{
+        echo "error";
+    }
+ }
+
+?>
+
+
+<html>
+    <head>
+        <title>class</title>
+    </head>
+    <body>
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+        <input type="text" name="name">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <input type="submit">
+</form>
+    </body>
+</html>
+
+
+<?php
+ 
+ include("conn.php");
+
+ $sql="SELECT * FROM bloodd";
+
+ $result=$conn->query($sql);
+
+ if($result->num_rows>0){
+    echo "<table border='1'>";
+    echo "<tr>";
+    echo "<th>Name</th>";
+    echo "<th>email</th>";
+    echo "<th>blood_type</th>";
+    echo "<th>health_condition</th>";
+    echo "<th>agree</th>";
+    echo "</tr>";
+
+    while($row=$result->fetch_assoc()){
+        echo "<tr>";
+        echo "<td>". $row["name"]."</td>";
+        echo "<td>" .$row["email"]."</td>";
+        echo "<td>". $row["bloodtype"]."</td>";
+        echo "<td>" .$row["healthcodition"]."</td>";
+        echo "<td>". $row["agree"]."</td>";
+        echo "</tr>";
+
+    }
+    echo "</table>";
+}
+else{
+    echo "no blood";
+}
+
+echo "<a href='registation.php'>logout</a>";
+ ?>
+ 
+
+
+
+
+
+
+
+
+

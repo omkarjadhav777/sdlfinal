@@ -1,0 +1,336 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 25, 2024 at 08:14 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `prac7`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `name` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `department` varchar(20) NOT NULL,
+  `complaint` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `complaints`
+--
+
+CREATE TABLE `complaints` (
+  `name` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `department` varchar(20) NOT NULL,
+  `complaint` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `complaints`
+--
+
+INSERT INTO `complaints` (`name`, `email`, `department`, `complaint`) VALUES
+('uni', 'vineetmorankar@gmail', 'IT', 'ehuifapvpnhvy'),
+('uni', 'vineetmorankar@gmail', 'IT', 'fghjkl;cvbnm,'),
+('ani', 'kunal@gmail.com', 'IT', 'xdcfvgbhnjmk,l');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) NOT NULL,
+  `name` varchar(10) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `password` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
+(1, '4g6y', 'vineetmoranakar393@g', '$2y$10$y6P'),
+(2, 'vineet2', 'vineetmorankar@gmail', '$2y$10$/Eu'),
+(3, 'admin', 'admin@gmail.com', '$2y$10$bPP'),
+(4, 'kunal', 'kunal@gmail.com', 'kunal'),
+(5, 'aniket', 'aniket@gmail.com', '$2y$10$0By'),
+(6, 'vineet', 'vineetmorankar123@gm', '123'),
+(7, 'uni', 'uni@gmail.com', 'uni'),
+(8, 'admin', 'admin@gmail.com', '321'),
+(9, 'ani', 'ani@gmail.com', 'ani');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+<?php
+
+$hostname="localhost";
+$username="root";
+$password="";
+$dbname="prac7";
+
+$conn = mysqli_connect($hostname,$username,$password,$dbname);
+
+if(!$conn)
+{
+    die("Connection was unsuccessful ". mysqli_connect_error());
+}
+
+?>
+
+<?php
+
+include("connect.php");
+
+if($_SERVER["REQUEST_METHOD"]=="POST")
+{
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $sql = "INSERT INTO users(name, email, password) VALUES('$name', '$email', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New category added successfully";
+        header("Location:login1.php");
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+
+        <input type="text" name="name">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+</body>
+</html>
+
+
+
+
+<?php
+// session_start();
+    include 'connect.php';
+
+    if($_SERVER["REQUEST_METHOD"]=="POST")
+    {
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        $sql = "SELECT * FROM `users` WHERE `email`='$email'";
+        $result = $conn->query($sql);
+
+        if($result->num_rows == 1)
+        {
+            $row = $result->fetch_assoc();
+
+            if($row["email"] == $email && $row["password"]==$password)
+            {
+                // $_SESSION['name'] = $row["name"];
+
+                header("Location:home.php");
+                exit();
+            }
+        }else {
+                echo "Invalid username or password";
+            }
+    }else {
+            echo "Username not found or multiple users with the same username";
+        } 
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form">
+        <form method="post" action="<?php echo $_SERVER['PHP_SELF']?>">
+        <div class="container">
+            <h3>Login</h3>
+            <input type="email" name="email" class="email" id="username"></br>
+            <input type="password" name="password" class="password" id="password"></br>
+            <input type="submit" class="submit" value="submit"></br>
+        </div>
+            
+        </form>
+    </div>
+</body>
+</html>
+
+
+<?php
+    // session_start();
+    include('connect.php');
+    // if(isset($_SESSION['name']))
+    // {
+    //   $user= $_SESSION['name'];
+    // }
+
+    if($_SERVER["REQUEST_METHOD"]=="POST")
+    {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $department = $_POST['department'];
+        $complaint = $_POST['complaint'];
+
+        $sql = "INSERT INTO complaints(name,email,department,complaint) VALUES ('$name','$email','$department','$complaint')";
+        $result = $conn->query($sql);
+
+        if($result)
+        {
+            echo"complaint registered successfully";
+        }
+        else
+        {
+            echo "complaint registered successfully" . $result->error;
+        }
+    }
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Complaint Management System</h1>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="department">Department:</label>
+            <select id="department" name="department" required>
+                <option value="IT">IT</option>
+                <option value="HR">HR</option>
+                <option value="Finance">Finance</option>
+            </select><br><br>
+
+            <label for="complaint">Complaint:</label><br>
+            <textarea id="complaint" name="complaint" rows="4" required></textarea><br><br>
+
+            <button type="submit">Submit Complaint</button>
+        </form>
+
+        <a href="viewcomplaints.php">View Complaints</a>
+    </div>
+</body>
+</html>
+
+
+
+<?php
+    include("connect.php");
+
+    $sql = "SELECT * FROM complaints";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "<table border='1'>"; // Start the table
+        echo "<tr>";
+        echo "<th>Name</th>";
+        echo "<th>Email</th>";
+        echo "<th>Department</th>";
+        echo "<th>Complaint</th>";
+        echo "</tr>";
+
+        // Output data of each row
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["name"] . "</td>";
+            echo "<td>" . $row["email"] . "</td>";
+            echo "<td>" . $row["department"] . "</td>";
+            echo "<td>" . $row["complaint"] . "</td>";
+            echo "</tr>";
+        }
+
+        echo "</table>"; // End the table
+    } else {
+        echo "<h1>NO complaints registered yet</h1>";
+    }
+
+    echo "<a href='register1.php'>logout</a>";
+  
+?>
+
+
+
+
+
+

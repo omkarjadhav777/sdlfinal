@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>class</title>
+        
+    </head>
+    <body>
+        <?php
+          
+          $emparay=array("omkar","anil","moin");
+
+          echo "display array";
+          foreach($emparay as $emp){
+            echo "$emp";
+          }
+
+          if(isset($_GET['name'])){
+               $name=$_GET['name'];
+               $key=array_search($name,$emparay);
+               if($key==""){
+                  echo "<p>not present</p>";
+               }
+               else{
+                echo "<p>elment present in index{$key}</p>";
+               }
+          }
+        ?>
+
+    <form method="GET">
+     <input type="text" name="name">
+     <input type="submit" value="ok">
+    </form>
+
+    </body>
+</html>

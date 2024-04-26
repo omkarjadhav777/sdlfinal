@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>class</title>
+    </head>
+    <body>
+        <h1>fibonacci series</h1>
+        Enter number up to display:<input type="text" id="t1"><br>
+        <button onclick="displayfibbo()">click to generate</button>
+       
+
+        <p id="fib"></p> 
+        <script src="fiboo.js"></script>
+        </body>
+</html>
+
+
+
+
+function fibb(vall){
+      var fib=[];
+      var a=0;var b=1;
+      for(var i=0;i<vall;i++){
+             fib.push(a);
+             var temp=a;
+             a=b;
+             b=temp+b;
+      }
+      return fib;
+}
+
+
+function displayfibbo(){
+  var vall=document.getElementById("t1").value;
+  var dd=fibb(vall);
+  document.getElementById("fib").innerHTML=dd;
+}

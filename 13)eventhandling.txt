@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>class</title>
+    </head>
+    <body>
+        <button id="mybutton" onclick="clik()">click me</button>
+        <input type="text" id="t1" onkeyup="handle()">
+        <p id="t2"></p>
+        
+        <script>
+           function clik(){
+            alert("button you clicked");
+           }
+           function handle(){
+             var v=document.getElementById("t1").value;
+             document.getElementById("t2").innerHTML=v;
+
+           }
+        </script>
+    </body>
+</html>

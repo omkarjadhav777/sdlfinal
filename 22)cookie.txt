@@ -1,0 +1,12 @@
+<?php
+echo "welcome to cookie";
+
+setcookie("category","books",time()+86400,"/");
+echo "cookie set";
+
+?>
+
+<?php
+$cat=$_COOKIE['category'];
+echo "here is the list of all $cat";
+?>

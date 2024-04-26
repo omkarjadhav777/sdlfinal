@@ -1,0 +1,39 @@
+<?php
+
+//verifiy user login
+session_start();
+
+$_SESSION['username']="harry";
+$_SESSION['favCat']="Books";
+
+echo "we have saved your session";
+
+
+
+?>
+
+
+<?php
+
+session_start();
+if(isset($_SESSION['username'])){
+
+
+echo "welcome".$_SESSION['username'];
+echo "<br> Your favorite category is".$_SESSION['favCat'];
+
+echo "<br>";
+}
+else{
+    echo "plz login to continue";
+}
+ 
+?>
+
+<?php
+
+session_start();
+session_unset();
+session_destroy();
+echo "<br>you have been logged out";
+?>

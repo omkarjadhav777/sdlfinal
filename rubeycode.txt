@@ -1,0 +1,62 @@
+app.rb
+
+require 'sinatra'
+
+# Define a route to handle GET requests to the root URL
+get '/' do
+  erb :index
+end
+
+# Define a route to handle POST requests to '/reverse_name'
+post '/reverse_name' do
+  # Retrieve the first name and last name from the request parameters
+  @first_name = params[:first_name]
+  @last_name = params[:last_name]
+  
+  # Reverse the order of the first and last names
+  @reversed_name = "#{@last_name} #{@first_name}"
+
+  # Render the 'reversed_name.erb' template with the reversed name
+  erb :reversed_name
+end
+
+
+index.erb
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reverse Name</title>
+</head>
+<body>
+  <h1>Enter Your Name</h1>
+  <form action="/reverse_name" method="post">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name"><br><br>
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
+
+
+
+
+reversed_name.erb
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reversed Name</title>
+</head>
+<body>
+  <h1>Reversed Name</h1>
+  <p><%= @reversed_name %></p>
+</body>
+</html>
+
+
+
+
+
